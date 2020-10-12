@@ -160,6 +160,10 @@ print(f'Baseline cost function value - {baseline_mse}')
 model = LinearRegression().fit(X,y)
 ##
 y_pred = (X * model.coef_) + model.intercept_
+##
+## get sklearn model cost value
+sklearn_mse = ((1 / len(y)) * sum((y_pred - y)**2))
+print(f'Sklearn cost function value - {sklearn_mse}')
 ## plotting predictions
 plt.figure(4)
 plt.scatter(X, y, s=10, color='black')
