@@ -32,7 +32,7 @@ def tune_hyperparams(model_type, fig_shift):
     ##
     ## init Q power and C penalty values
     q_range = [1, 2, 3, 4, 5]
-    c_range = [0.001, 1, 10, 1000]
+    c_range = [0.0001, 1, 10, 1000]
     ##
     ## (i) (b)
     ##
@@ -42,6 +42,9 @@ def tune_hyperparams(model_type, fig_shift):
             ##
             ## generate more features of higher powers
             Xpoly = PolynomialFeatures(Q).fit_transform(X)
+            # Xpoly = PolynomialFeatures(Q).fit(X)
+            # print(f'{model_type} model (Order={Q}, C={C})')
+            # print(Xpoly.get_feature_names())
             ##
             ## if generating Lasso model
             if model_type == 'Lasso':
@@ -54,8 +57,8 @@ def tune_hyperparams(model_type, fig_shift):
             ## determine target predictions
             y_pred = model.predict(Xpoly)
             ##
-            # print(f'{model_type} model (Order={Q}, C={C})')
-            # print(f'Paramters = {model.coef_}\n')
+            print(f'{model_type} model (Q={Q}, C={C})')
+            print(f'Paramters = {model.coef_}\n')
         ##
     ##
     ##
@@ -171,6 +174,15 @@ def cross_val_model(model_type, folds, Q, C):
 
 ## (ii) (a)
 ##
+## get error values for 5-fold
+cross_val_results = cross_val_model('Lasso', 5, 2, 1)
+##
+## print mean, var and std error values
+print(f'5-fold cross-validation')
+print(f'Mean MSE - {cross_val_results[0]}')
+print(f'Var MSE - {cross_val_results[1]}')
+print(f'Std MSE - {cross_val_results[2]}\n')
+##
 ## init list of diffent k-fold values
 k_folds = [2, 10, 25, 50, 100]
 ##
@@ -195,7 +207,7 @@ kf = ['2', '10', '25', '50', '100']
 # print(mean_mse)
 # print(var_mse)
 plt.errorbar(kf, mean_mse, yerr=var_mse, capsize=5, ecolor='red', label='Mean prediction error with varience')
-plt.title('Lasso mean prediction error vs k-fold values (Q - Power 5, C - 1)')
+plt.title('Lasso mean prediction error vs k-fold values (Q = 2, C = 1)')
 plt.xlabel('k-fold value')
 plt.ylabel('Mean prediction error')
 plt.legend()
@@ -227,7 +239,7 @@ c_vals = ['0.01', '0.1', '1', '10', '100', '1000', '10000']
 # print(mean_mse)
 # print(var_mse)
 plt.errorbar(c_vals, mean_mse, yerr=var_mse, capsize=5, ecolor='red', label='Mean prediction error with varience')
-plt.title('Lasso mean prediction error vs C penalty values (Q - Power 5, k-folds - 10)')
+plt.title('Lasso mean prediction error vs C penalty values (Q = 2, k-folds = 10)')
 plt.xlabel('C penalty value')
 plt.ylabel('Mean prediction error')
 plt.legend()
@@ -259,7 +271,7 @@ kf = ['2', '10', '25', '50', '100']
 # print(mean_mse)
 # print(var_mse)
 plt.errorbar(kf, mean_mse, yerr=var_mse, capsize=5, ecolor='red', label='Mean prediction error with varience')
-plt.title('Ridge mean prediction error vs k-fold values (Q - Power 5, C - 1)')
+plt.title('Ridge mean prediction error vs k-fold values (Q = 2, C = 1)')
 plt.xlabel('k-fold value')
 plt.ylabel('Mean prediction error')
 plt.legend()
@@ -289,7 +301,7 @@ c_vals = ['0.01', '0.1', '1', '10', '100', '1000', '10000']
 # print(mean_mse)
 # print(var_mse)
 plt.errorbar(c_vals, mean_mse, yerr=var_mse, capsize=5, ecolor='red', label='Mean prediction error with varience')
-plt.title('Ridge mean prediction error vs C penalty values (Q - Power 5, k-folds - 10)')
+plt.title('Ridge mean prediction error vs C penalty values (Q = 2, k-folds = 10)')
 plt.xlabel('C penalty value')
 plt.ylabel('Mean prediction error')
 plt.legend()
