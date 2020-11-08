@@ -1,0 +1,3 @@
+[submodule "GroupProject/covid-road-traffic-regression-analysis"]
+	path = GroupProject/covid-road-traffic-regression-analysis
+	url = git@github.com:mcnallc2/covid-road-traffic-regression-analysis.git
