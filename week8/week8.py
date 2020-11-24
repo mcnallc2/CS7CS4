@@ -1,3 +1,4 @@
+#!/usr/bin/python
 
 import numpy as np
 import tensorflow as tf
@@ -35,14 +36,42 @@ use_saved_model = False
 if use_saved_model:
 	model = keras.models.load_model("cifar.model")
 else:
+	# model = keras.Sequential()
+	# model.add(Conv2D(16, (3,3), padding='same', input_shape=x_train.shape[1:],activation='relu'))
+	# model.add(Conv2D(16, (3,3), strides=(2,2), padding='same', activation='relu'))
+	# model.add(Conv2D(32, (3,3), padding='same', activation='relu'))
+	# model.add(Conv2D(32, (3,3), strides=(2,2), padding='same', activation='relu'))
+	# model.add(Dropout(0.5))
+	# model.add(Flatten())
+	# model.add(Dense(num_classes, activation='softmax',kernel_regularizer=regularizers.l1(0)))
+	# model.compile(loss="categorical_crossentropy", optimizer='adam', metrics=["accuracy"])
+	# model.summary()
+
+	## MAXPOOLING NET
+	# model = keras.Sequential()
+	# model.add(Conv2D(16, (3,3), padding='same', input_shape=x_train.shape[1:],activation='relu'))
+	# model.add(Conv2D(16, (3,3), padding='same', activation='relu'))
+	# model.add(MaxPooling2D(pool_size=(2, 2)))
+	# model.add(Conv2D(32, (3,3), padding='same', activation='relu'))
+	# model.add(Conv2D(32, (3,3), padding='same', activation='relu'))
+	# model.add(MaxPooling2D(pool_size=(2, 2)))
+	# model.add(Dropout(0.5))
+	# model.add(Flatten())
+	# model.add(Dense(num_classes, activation='softmax',kernel_regularizer=regularizers.l1(0)))
+	# model.compile(loss="categorical_crossentropy", optimizer='adam', metrics=["accuracy"])
+	# model.summary()
+
+	## THINNER DEEPER NET
 	model = keras.Sequential()
-	model.add(Conv2D(16, (3,3), padding='same', input_shape=x_train.shape[1:],activation='relu'))
-	model.add(Conv2D(16, (3,3), strides=(2,2), padding='same', activation='relu'))
+	model.add(Conv2D(8, (3,3), padding='same', input_shape=x_train.shape[1:],activation='relu'))
+	model.add(Conv2D(8, (3,3), padding='same', activation='relu'))
+	model.add(Conv2D(16, (3,3), padding='same', activation='relu'))
+	model.add(Conv2D(16, (3,3), padding='same', activation='relu'))
 	model.add(Conv2D(32, (3,3), padding='same', activation='relu'))
-	model.add(Conv2D(32, (3,3), strides=(2,2), padding='same', activation='relu'))
+	model.add(Conv2D(32, (3,3), padding='same', activation='relu'))
 	model.add(Dropout(0.5))
 	model.add(Flatten())
-	model.add(Dense(num_classes, activation='softmax',kernel_regularizer=regularizers.l1(0.0001)))
+	model.add(Dense(num_classes, activation='softmax',kernel_regularizer=regularizers.l1(0)))
 	model.compile(loss="categorical_crossentropy", optimizer='adam', metrics=["accuracy"])
 	model.summary()
 
